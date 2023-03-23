@@ -1,14 +1,13 @@
 <script>
   import clickOutside from "$lib/functions/clickOutside";
   import { fade, slide } from "svelte/transition";
-  import { changeNotificationSettings } from "$lib/api/axios.js";
+  import { changeNotificationEmailSettings } from "$lib/api/axios.js";
   import Preloader from "$lib/components/Preloader.svelte";
   import ToogleCheckbox from "$lib/components/inputs/ToogleCheckbox.svelte";
   import { t } from "$lib/translations/i18n.js";
   import {
-    globalData,
     loading,
-    notificationSettings,
+    notificationEmailSettings,
     isFetching,
   } from "$lib/globalStore";
   let updateNotificationResult;
@@ -24,14 +23,14 @@
     $isFetching = true;
     if (e.currentTarget.checked) {
       value = true;
-      const res = await changeNotificationSettings(id, value);
+      const res = await changeNotificationEmailSettings(id, value);
       if (res.status) {
         setStatusToUpdatedItem(res.status, id, value);
       }
       currentItem.disabled = false;
     } else {
       value = false;
-      const res = await changeNotificationSettings(id, value);
+      const res = await changeNotificationEmailSettings(id, value);
       if (res.status) {
         setStatusToUpdatedItem(res.status, id, value);
       }
@@ -40,9 +39,9 @@
     $isFetching = false;
   }
   function setStatusToUpdatedItem(status, itemId, value) {
-    const notificationSettingsArray = [...$notificationSettings];
+    const notificationSettingsArray = [...$notificationEmailSettings];
     const updatedIndex = findIndexById(notificationSettingsArray, itemId);
-    $notificationSettings[updatedIndex].active = value;
+    $notificationEmailSettings[updatedIndex].active = value;
     notificationUpdateItemStatus = true;
     updatedItemId = itemId;
     if (status) {
@@ -60,11 +59,11 @@
   function handleClickOutside() {
     notificationUpdateItemStatus = false;
   }
-  console.log($notificationSettings);
+  console.log($notificationEmailSettings);
 </script>
 
 <div class="b-radius-8 settings_card">
-  <div class="text-3 settings_card--head">{$t("DASH_NOTIFICATIONS")}</div>
+  <div class="text-3 settings_card--head">{$t("EMAIL_NOTIFICATIONS")}</div>
   <div
     class="notification__list d-flex flex-col"
     use:clickOutside
@@ -75,7 +74,7 @@
         <Preloader loaderWidth={3} loaderHeight={3} borderWidth={0.3} />
       </div>
     {:else}
-      {#each $notificationSettings as item}
+      {#each $notificationEmailSettings as item}
         <div class="notification mb-0_625">
           <div class=" d-flex align-center justify-sb">
             <div class="text-sm">{item.name}</div>

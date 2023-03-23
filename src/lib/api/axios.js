@@ -362,6 +362,22 @@ export const changeNotificationSettings = async (id, value) => {
 		if (error.response.data === 'Bad Authorization string') goto('/auth/login');
 	}
 };
+export const changeNotificationEmailSettings = async (id, value) => {
+	try {
+		let response = await privatePath.post('/changeNotificationEmailSetting', {
+			notificationId: id,
+			notificationValue: value
+		});
+		return response.data;
+	} catch (error) {
+		console.error(error);
+		// redirect to 404
+		if (error.response.status != 401 && error.response.data != 'Bad Authorization string')
+			goto('/404');
+		// redirect to auth when
+		if (error.response.data === 'Bad Authorization string') goto('/auth/login');
+	}
+};
 
 export const changeContribution = async (amount, periodId) => {
 	try {
