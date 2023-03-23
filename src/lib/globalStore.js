@@ -5,6 +5,7 @@ export let avatar = writable();
 export let contributionStatus = writable();
 export let notificationList = writable([]);
 export let notificationSettings = writable([]);
+export let notificationEmailSettings = writable([]);
 export let selectedNotification = writable({
 	head: '',
 	body: ''
@@ -25,6 +26,9 @@ export let updateNotificationData = (data) => {
 };
 export let updateNotificationSettings = (data) => {
 	notificationSettings.set(data);
+};
+export let updateEmailNotificationSettings = (data) => {
+	notificationEmailSettings.set(data);
 };
 export let currentSideBarStatus = writable(null);
 export let isFetching = writable(false)
