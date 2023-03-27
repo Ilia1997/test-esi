@@ -29,6 +29,14 @@
       $notificationEmailSettings = $globalData.data.notificationEmailSettings;
     }
   });
+
+  function generateNotificationButtonName(dataAction, dataHead) {
+    if (dataAction.includes("mailto")) {
+      return "CONTACT_US";
+    } else {
+      return "MORE";
+    }
+  }
 </script>
 
 <svelte:head>
@@ -65,18 +73,30 @@
     </div>
     <img in:fade class="logo_bg" src={logoForBg} alt="esi logo" />
     <Modal id="notification">
-      <div class="notification_modal text-center">
-        <img src={greenLogo} alt="esi logo img" />
+      <div class="notification_modal">
         <div class="modal_head_medium mt-2">
           {$selectedNotification.head}
         </div>
         <div class="text-4 mt-1">{$selectedNotification.body}</div>
-        <div class="mt-2 d-flex justify-cc">
+        <div class="mt-2 mb-2 d-flex btns">
           <button
-            class="btn confirm "
+            class="btn secondary "
             on:click={() => getModal("notification").close()}
             >{$t("CLOSE")}</button
           >
+          {#if $selectedNotification.action}
+            <a
+              class="btn confirm ml-2"
+              sveltekit:data-sveltekit-prefetch
+              href={$selectedNotification.action}
+              >{$t(
+                generateNotificationButtonName(
+                  $selectedNotification.action,
+                  $selectedNotification.head
+                )
+              )}</a
+            >
+          {/if}
         </div>
       </div>
     </Modal>
@@ -129,9 +149,6 @@
     left: 68px;
     z-index: -1;
   }
-  .notification_modal {
-    padding-top: 6rem;
-  }
   @media only screen and (max-width: 991px) {
     .logo_bg {
       display: none;
@@ -154,6 +171,13 @@
     .main-body {
       padding-right: 0rem;
       padding-left: 0rem;
+    }
+    .btns {
+      flex-direction: column;
+    }
+    .btns a {
+      margin-top: 1.5rem;
+      margin-left: 0;
     }
   }
   @media only screen and (min-width: 992px) {

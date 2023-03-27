@@ -8,7 +8,8 @@ export let notificationSettings = writable([]);
 export let notificationEmailSettings = writable([]);
 export let selectedNotification = writable({
 	head: '',
-	body: ''
+	body: '',
+	action: ''
 });
 export const verificationId = writable(null)
 export let loading = writable(false);
