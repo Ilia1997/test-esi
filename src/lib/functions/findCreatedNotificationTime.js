@@ -7,8 +7,8 @@ function msToTime(duration) {
     var minutes = parseInt((duration / (1000 * 60)) % 60);
     var hours = parseInt((duration / (1000 * 60 * 60)) % 24);
     var days = parseInt(duration / (1000 * 60 * 60 * 24));
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
+    // hours = hours < 10 ? '0' + hours : hours;
+    // minutes = minutes < 10 ? '0' + minutes : minutes;
 
     if (days > 0) {
         return `${days}d`;
@@ -16,5 +16,7 @@ function msToTime(duration) {
         return `${hours}h`;
     } else if (minutes > 0) {
         return `${minutes}m`;
+    } else {
+        return "0m";
     }
 }
